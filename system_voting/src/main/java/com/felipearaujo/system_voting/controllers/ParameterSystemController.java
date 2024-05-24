@@ -12,24 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.felipearaujo.system_voting.models.ParameterSystem;
 import com.felipearaujo.system_voting.services.ParameterSystemService;
 
-
-
 @RestController
 @RequestMapping("/api/parameters")
 public class ParameterSystemController {
 
     @Autowired
     ParameterSystemService service;
-    
 
     @PostMapping("/save")
-    public ResponseEntity<Object> save(@RequestBody ParameterSystem parameterSystem){
+    public ResponseEntity<Object> save(@RequestBody ParameterSystem parameterSystem) {
         var save = service.save(parameterSystem);
         return ResponseEntity.ok(save);
     }
 
     @GetMapping("/consult")
-    public ResponseEntity<Object> consult(@RequestParam String key){
+    public ResponseEntity<Object> consult(@RequestParam String key) {
         var consult = service.consult(key);
         return ResponseEntity.ok(consult);
     }

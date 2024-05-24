@@ -3,12 +3,13 @@ package com.felipearaujo.system_voting.services;
 
 import java.util.Optional;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.felipearaujo.system_voting.models.Participant;
 import com.felipearaujo.system_voting.repository.ParticipantRepository;
+import com.felipearaujo.system_voting.services.Business_exception.NotFoundException;
 
 @Service
 public class ParticipantService {
@@ -16,16 +17,19 @@ public class ParticipantService {
     @Autowired
     private ParticipantRepository repository;
 
-    public ResponseEntity<Participant> save(Participant participant){
-        return ResponseEntity.ok(repository.save(participant));
+    public Participant save(Participant participant) throws BadRequestException{
+        
+        Optional<Participant> optParticipant = repository.findByName(participant.getName());
+
+        if(optParticipant.isPresent()){
+            throw new BadRequestException("Participant with this name already exists");
+        }
+        return repository.save(participant);
     }
 
-    public ResponseEntity<Participant> consult(String id){
-        Optional<Participant> optParameter = repository.findById(id);
-        if (optParameter.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(optParameter.get());
+    public Participant consult(String id){
+        return repository.findById(id)
+            .orElseThrow(() -> new NotFoundException("Participant not found "));
     }
     
 }

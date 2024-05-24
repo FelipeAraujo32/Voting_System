@@ -1,5 +1,6 @@
 package com.felipearaujo.system_voting.controllers;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class ParticipantController {
     private ParticipantService service;
 
     @PostMapping("/save")
-    public ResponseEntity<Object> save(@RequestBody Participant participant){
+    public ResponseEntity<Object> save(@RequestBody Participant participant) throws BadRequestException{
         var save = service.save(participant);
         return ResponseEntity.ok(save);
     }
