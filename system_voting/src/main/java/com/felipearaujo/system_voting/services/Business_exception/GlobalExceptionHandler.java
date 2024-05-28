@@ -17,11 +17,5 @@ public class GlobalExceptionHandler{
     public ResponseEntity<String> handleResourceNotFoundException(NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
-
-    @ExceptionHandler(ValidationExceptionBusiness.class)
-    public ResponseEntity<String> handleValidationExceptionBusiness (ValidationExceptionBusiness ex) {
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ex.getMessage());
-    }
-
 }
 
