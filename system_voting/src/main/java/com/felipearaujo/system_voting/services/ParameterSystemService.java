@@ -17,8 +17,8 @@ public class ParameterSystemService {
 
     public ParameterSystem save(ParameterSystem parameterSystem) {
              
-        if(parameterSystem.getKey() == null || parameterSystem.getKey().isEmpty() || 
-            parameterSystem.getValue() == null || parameterSystem.getValue().isEmpty()) {
+        if(parameterSystem.getKey() == null || parameterSystem.getKey().trim().isEmpty() || 
+            parameterSystem.getValue() == null || parameterSystem.getValue().trim().isEmpty()) {
             throw new BadRequestException("Key or Value field cannot be null or empty");
         }
         return repository.save(parameterSystem);
