@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.felipearaujo.system_voting.models.Participant;
 import com.felipearaujo.system_voting.services.ParticipantService;
+import com.felipearaujo.system_voting.services.business_exception.ValidationExceptionBusiness;
 
 @RestController
 @RequestMapping("/api/participants")
@@ -22,7 +23,7 @@ public class ParticipantController {
     private ParticipantService service;
 
     @PostMapping("/save")
-    public ResponseEntity<Object> save(@RequestBody Participant participant) throws BadRequestException{
+    public ResponseEntity<Object> save(@RequestBody Participant participant) throws BadRequestException, ValidationExceptionBusiness{
         var save = service.save(participant);
         return ResponseEntity.ok(save);
     }

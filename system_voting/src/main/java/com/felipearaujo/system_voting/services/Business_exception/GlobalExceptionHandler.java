@@ -1,4 +1,4 @@
-package com.felipearaujo.system_voting.services.Business_exception;
+package com.felipearaujo.system_voting.services.business_exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,13 +9,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler{
     
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<String> BadRequest(BadRequestException  ex) {
+    public ResponseEntity<String> handleBadRequest(BadRequestException  ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> ResourceNotFoundException(NotFoundException ex) {
+    public ResponseEntity<String> handleResourceNotFoundException(NotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ValidationExceptionBusiness.class)
+    public ResponseEntity<String> handleValidationExceptionBusiness (ValidationExceptionBusiness ex) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ex.getMessage());
     }
 
 }

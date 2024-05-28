@@ -1,4 +1,4 @@
-package com.felipearaujo.system_voting.services.Business_exception;
+package com.felipearaujo.system_voting.services.business_exception;
 
 public class NotFoundException extends RuntimeException {
 

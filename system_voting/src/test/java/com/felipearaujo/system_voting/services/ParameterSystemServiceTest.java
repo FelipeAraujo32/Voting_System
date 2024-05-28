@@ -18,8 +18,8 @@ import org.mockito.MockitoAnnotations;
 
 import com.felipearaujo.system_voting.models.ParameterSystem;
 import com.felipearaujo.system_voting.repository.ParameterSystemRepository;
-import com.felipearaujo.system_voting.services.Business_exception.BadRequestException;
-import com.felipearaujo.system_voting.services.Business_exception.NotFoundException;
+import com.felipearaujo.system_voting.services.business_exception.BadRequestException;
+import com.felipearaujo.system_voting.services.business_exception.NotFoundException;
 
 public class ParameterSystemServiceTest {
 
