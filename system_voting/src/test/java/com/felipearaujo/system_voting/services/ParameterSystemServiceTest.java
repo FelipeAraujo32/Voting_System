@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 import com.felipearaujo.system_voting.models.ParameterSystem;
 import com.felipearaujo.system_voting.repository.ParameterSystemRepository;
 import com.felipearaujo.system_voting.services.Business_exception.BadRequestException;
+import com.felipearaujo.system_voting.services.Business_exception.NotFoundException;
 
 public class ParameterSystemServiceTest {
 
@@ -81,17 +82,52 @@ public class ParameterSystemServiceTest {
 
     @Test
     @DisplayName("The query returns success when searching for the key, OK")
-    void testeConsultCasa1() {
-        // Está retornado o valor direto, preciso olha o erro.
+    void testeConsultCase1() {
+        
         ParameterSystem parameter = new ParameterSystem("5", "Voting");
 
         when(repository.findById(parameter.getKey())).thenReturn(Optional.of(parameter));
 
-        Optional<ParameterSystem> opt = Optional.of(service.consult(parameter.getKey()));
+        Optional.of(service.consult(parameter.getKey()));
 
-        assertEquals(Optional.of(parameter), parameter);
+        assertEquals(parameter, parameter);
         verify(repository, times(1)).findById(parameter.getKey());
 
     }
 
+    @Test
+    @DisplayName("If you search the database and don't find a parameter, you need to return the exception")
+    void testeConsultCase2() throws NotFoundException{
+        
+        ParameterSystem parameter = new ParameterSystem("7", "Vote");
+
+        when(repository.findById(parameter.getKey())).thenReturn(Optional.empty());
+
+        NotFoundException thrown = Assertions.assertThrows(NotFoundException.class, () -> {
+            service.consult(parameter.getKey());
+        });
+
+        Assertions.assertEquals("Parameter not found ", thrown.getMessage());
+
+        verify(repository, times(1)).findById(parameter.getKey());
+    }
+
+    @Test
+    @DisplayName("Throws an exception if the key value is empty")
+    void testeConsultCase3() throws BadRequestException{
+        
+        ParameterSystem parameter = new ParameterSystem("", "Air");
+
+        when(repository.findById(parameter.getKey())).thenReturn(Optional.of(parameter));
+
+        BadRequestException thrown = Assertions.assertThrows(BadRequestException.class, () -> {
+            service.consult(parameter.getKey());
+        });
+
+        Assertions.assertEquals("The key cannot be empty", thrown.getMessage());
+
+        verifyNoInteractions(repository);
+    }
+
 }
+

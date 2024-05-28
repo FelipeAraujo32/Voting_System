@@ -1,5 +1,6 @@
 package com.felipearaujo.system_voting.services;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class ParameterSystemService {
     private ParameterSystemRepository repository;
 
     public ParameterSystem save(ParameterSystem parameterSystem) {
-        if (parameterSystem.getKey() == null || parameterSystem.getKey().isEmpty() || 
+        if(parameterSystem.getKey() == null || parameterSystem.getKey().isEmpty() || 
             parameterSystem.getValue() == null || parameterSystem.getValue().isEmpty()) {
             throw new BadRequestException("Key or Value field cannot be null or empty");
         }
@@ -23,7 +24,13 @@ public class ParameterSystemService {
     }
 
     public ParameterSystem consult(String key){
+        key = key.trim();
+        if (key.isEmpty()) {
+            throw new BadRequestException("The key cannot be empty");
+        }
         return repository.findById(key)
-            .orElseThrow(() -> new NotFoundException("Parameter not found "));   
-    }
+            .orElseThrow(() -> new NotFoundException("Parameter not found "));
+
+
+        }
 }
